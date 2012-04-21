@@ -1,0 +1,8 @@
+{
+    "name": "artavenue-service"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "freebase": "1.0.1"
+  }
+}
