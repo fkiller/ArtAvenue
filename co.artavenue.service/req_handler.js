@@ -137,6 +137,18 @@ function fb(request, response, postData) {
   }
 
 }
+
+function exhibition(request, response, postData) {
+  if(request.query.latitude && request.query.longitude) {
+    freebase.query_freebase([{'/location/latitude': {'latitude<': Number(request.query.latitude) + 1, 'latitude>': Number(request.query.latitude) - 1}, 'name': null, 'type': '/location'}], writeFreebase)
+  }
+
+  function writeFreebase(sender) {
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.write(JSON.stringify(sender));
+    response.end();
+  }
+}
  
 //}
 
@@ -152,3 +164,4 @@ exports.start = start;
 exports.upload = upload;
 exports.db = db;
 exports.fb = fb;
+exports.exhibition = exhibition;

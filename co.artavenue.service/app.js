@@ -10,6 +10,7 @@ var handle, req_handler, router, server;
   handle["/upload"] = req_handler.upload;
   handle["/db"] = req_handler.db;
   handle["/fb"] = req_handler.fb;
+  handle["/exhibition"] = req_handler.exhibition;
 
   server.start(router.route, handle);
 
