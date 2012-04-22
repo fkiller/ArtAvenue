@@ -4,6 +4,9 @@ var freebase = require("freebase");
 var pg = require("pg");
 var http = require("http");
 
+var pw = process.env.ART_PG_PW;
+var connString = "postgres://avenue:" + pw + "@artavenue.co:9732/avenuedb";
+
 function start(request, response, postData) {
   console.log("Request handler 'start' was called.");
 
@@ -16,11 +19,6 @@ function db(request, response, postData) {
   console.log("Request handler 'db' was called.");
   console.log(request);
 
-  var pw = process.env.ART_PG_PW
-
-  var conString = "postgres://avenue:" + pw + "@scrptr.com:9732/avenuedb";
-
-  //error handling omitted
   pg.connect(conString, function(err, client) {
     client.query("SELECT NOW() as when", function(err, result) {
       console.log("Row count: %d",result.rows.length);  // 1
@@ -140,8 +138,23 @@ function fb(request, response, postData) {
 
 function exhibition(request, response, postData) {
   if(request.query.latitude && request.query.longitude) {
-    freebase.query_freebase([{'/location/latitude': {'latitude<': Number(request.query.latitude) + 1, 'latitude>': Number(request.query.latitude) - 1}, 'name': null, 'type': '/location'}], writeFreebase)
+   // freebase.query_freebase([{'/location/latitude': {'latitude<': Number(request.query.latitude) + 1, 'latitude>': Number(request.query.latitude) - 1}, 'name': null, 'type': '/location'}], writeFreebase)
   }
+  var mSet = [];
+
+  pg.connect(connString, function(err, client) {
+    client.query("SELECT name FROM museum WHERE latitude > " + Number(request.query.latitude - 1).toString() + " AND latitude < " + Number(request.query.latitude + 1).toString, function(err, result) {
+      console.log(Number(request.query.latitude - 1).toString());
+      if(result) {
+        console.log("Row count: %d",result.rows.length);  // 1
+        console.log("Name: %s", result.rows[0].name);
+        mSet.push(result.rows[0].name);
+      } else {
+        mSet.push("No results");
+      }
+      writeFreebase(mSet);
+    });
+  });
 
   function writeFreebase(sender) {
     response.writeHead(200, {"Content-Type": "application/json"});
