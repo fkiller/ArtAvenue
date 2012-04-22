@@ -7,6 +7,42 @@ var http = require("http");
 var pw = process.env.ART_PG_PW;
 var connString = "postgres://avenue:" + pw + "@artavenue.co:9732/avenuedb";
 
+function activities(request, response, postData) {
+  console.log("routed to activities");
+  if(request.query.type == 'checkin') {
+
+    var client = new pg.Client(connString);
+    client.connect();
+
+    client.query({
+      name: 'insert activities',
+      text: "INSERT INTO activities(userid, usergeoid, artworkid, artistid,comment,rating) values($1, $2, $3,$4,$5,$6)",
+      values: [request.query.userid, 0, request.query.artworkid, 0, '', 1] //(700681, 1010, 73, 83, '',4]
+    });
+
+
+/*    query.on('error', function(error) {
+      response.writeHead(200, {"Content-Type":"application/json"});
+      response.write(error.message);
+      response.end();
+    });
+*/
+    var query = client.query("SELECT * FROM activities");
+    /*query.on('row', function(row) {
+      console.log(row);
+      
+    });*/
+
+    query.on('row', function(row) {
+      console.log("on end");
+      response.writeHead(200, {"Content-Type": "application/json"});
+      response.write("Successful.");
+      response.end();
+    });
+  }
+  console.log("done acting.");
+}
+
 function start(request, response, postData) {
   console.log("Request handler 'start' was called.");
 
@@ -143,8 +179,15 @@ function exhibition(request, response, postData) {
   var mSet = [];
 
   pg.connect(connString, function(err, client) {
-    client.query("SELECT name FROM museum WHERE latitude > " + Number(request.query.latitude - 1).toString() + " AND latitude < " + Number(request.query.latitude + 1).toString, function(err, result) {
+    var query = client.query("SELECT name FROM museum WHERE latitude > $1 AND latitude < $2", [Number(request.query.latitude) - 1], [Number(request.query.latitude) + 1]);
+    query.on('row', function(row) {
+      console.log(row.name);
+      mSet.push(row.name);
+    });
+
+    /*function(err, result) {
       console.log(Number(request.query.latitude - 1).toString());
+      console.log((Number(request.query.latitude) + 1).toString());
       if(result) {
         console.log("Row count: %d",result.rows.length);  // 1
         console.log("Name: %s", result.rows[0].name);
@@ -153,8 +196,10 @@ function exhibition(request, response, postData) {
         mSet.push("No results");
       }
       writeFreebase(mSet);
-    });
+    });*/
+    writeFreebase(mSet);
   });
+
 
   function writeFreebase(sender) {
     response.writeHead(200, {"Content-Type": "application/json"});
@@ -178,3 +223,4 @@ exports.upload = upload;
 exports.db = db;
 exports.fb = fb;
 exports.exhibition = exhibition;
+exports.activities = activities;

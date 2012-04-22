@@ -11,6 +11,7 @@ var handle, req_handler, router, server;
   handle["/db"] = req_handler.db;
   handle["/fb"] = req_handler.fb;
   handle["/exhibition"] = req_handler.exhibition;
+  handle["/activities"] = req_handler.activities;
 
   server.start(router.route, handle);
 
