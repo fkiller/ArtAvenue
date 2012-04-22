@@ -4,6 +4,7 @@
   , "private": true
   , "dependencies": {
       "freebase": "1.0.1"
-  ,   "mysql": "0.9.5"
+  ,   "pg": "0.6.17"
+  ,   "request": "1.9.5"
   }
 }

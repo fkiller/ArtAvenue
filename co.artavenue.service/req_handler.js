@@ -122,7 +122,7 @@ function fb(request, response, postData) {
   function writeFreebase(sender, type) {
     response.writeHeader(200, {"Content-Type": "application/json"});
     var jres = {
-      type: sender
+      description: sender
     }
     if(type != '') {
       response.write(JSON.stringify(jres));
