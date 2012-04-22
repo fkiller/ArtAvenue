@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script src="js/jquery.min.js"></script>
+
+    <title></title>
+    <style>
+    .aablock 
+    {
+        position:absolute;
+        width:290px;
+        height:290px;
+    }
+    #b11
+    {
+        top:0px;
+        left:0px;
+    }
+    #b12
+    {
+        top:0px;
+        left:300px;
+    }
+    #b21
+    {
+        top:300px;
+        left:0px;
+    }
+    #b22
+    {
+        top:300px;
+        left:300px;
+    }
+    #b31
+    {
+        top:600px;
+        left:0px;
+    }
+    #b32
+    {
+        top:600px;
+        left:300px;
+    }
+    #b41
+    {
+        top:900px;
+        left:0px;
+    }
+    #b42
+    {
+        top:900px;
+        left:300px;
+    }
+    img 
+    {
+        width:290px;
+        height:290px;
+    }
+        
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var list = ['b11', 'b12', 'b21', 'b22'];
+            // more than one array
+            var sp = 0;
+            var col = 2;
+            var row = 10;
+            //setInterval(function () {
+
+            $('#b11').animate({ top: '0px', left: '300px' }, 900, 'linear');
+            $('#b12').animate({ top: '300px', left: '0px' }, 1050, 'linear');
+            $('#b21').animate({ top: '300px', left: '300px' }, 970, 'linear');
+            $('#b22').animate({ top: '0px', left: '0px' }, 1000, 'linear');
+
+            setTimeout(function () {
+                $('#b11').animate({ top: '600px', left: '0px' }, 820, 'linear');
+                $('#b12').animate({ top: '600px', left: '300px' }, 920, 'linear');
+                $('#b21').animate({ top: '900px', left: '0px' }, 1000, 'linear');
+                $('#b22').animate({ top: '900px', left: '300px' }, 1020, 'linear');
+                $('#b31').animate({ top: '0px', left: '300px' }, 900, 'linear');
+                $('#b32').animate({ top: '300px', left: '0px' }, 1050, 'linear');
+                $('#b41').animate({ top: '300px', left: '300px' }, 970, 'linear');
+                $('#b42').animate({ top: '0px', left: '0px' }, 1000, 'linear');
+            }, 5000);
+
+            setTimeout(function () {
+                $('#b11').animate({ top: '600px', left: '0px' }, 820, 'linear');
+                $('#b12').animate({ top: '600px', left: '300px' }, 920, 'linear');
+                $('#b21').animate({ top: '900px', left: '0px' }, 1000, 'linear');
+                $('#b22').animate({ top: '900px', left: '300px' }, 1020, 'linear');
+                $('#b31').animate({ top: '300px', left: '300px' }, 900, 'linear');
+                $('#b32').animate({ top: '0px', left: '0px' }, 1050, 'linear');
+                $('#b41').animate({ top: '0px', left: '300px' }, 970, 'linear');
+                $('#b42').animate({ top: '300px', left: '0px' }, 1000, 'linear');
+            }, 11000);
+            //var tmp = list[sp];
+            //list[sp] = list[sp
+            //}, 1000);
+        });
+    </script>
+</head>
+<body>
+<div class="aablock" id="b11"><img src="DSC02642.JPG" /></div>
+<div class="aablock" id="b12"><img src="DSC02643.JPG" /></div>
+<div class="aablock" id="b21"><img src="DSC02644.JPG" /></div>
+<div class="aablock" id="b22"><img src="DSC02645.JPG" /></div>
+<div class="aablock" id="b31"><img src="DSC02648.JPG" /></div>
+<div class="aablock" id="b32"><img src="DSC02649.JPG" /></div>
+<div class="aablock" id="b41"><img src="DSC02650.JPG" /></div>
+<div class="aablock" id="b42"><img src="DSC02651.JPG" /></div>
+
+</body>
+</html>
