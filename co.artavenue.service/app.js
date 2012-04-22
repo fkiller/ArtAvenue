@@ -12,6 +12,7 @@ var handle, req_handler, router, server;
   handle["/fb"] = req_handler.fb;
   handle["/exhibition"] = req_handler.exhibition;
   handle["/activities"] = req_handler.activities;
+  handle["/artwork/detail"] = req_handler.artbyid;
 
   server.start(router.route, handle);
 

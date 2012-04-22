@@ -78,6 +78,18 @@ function db(request, response, postData) {
   }*/
 }
 
+function artbyid(request, response, postData) {
+  if(request.query.id) {
+    console.log("passed request for art by id");
+    freebase.query_freebase([{'id': request.query.id, 'name':null, 'art_subject':null, 'art_form':null,'art_genre':null,'type':'/visual_art/artwork'}], writeFreebase);
+  }
+  function writeFreebase(sender) {
+    console.log("got it");
+    response.writeHead(200, {"Content-Type":"application/json"});
+    response.write(JSON.stringify(sender));
+    response.end();
+  }
+}
 function fb(request, response, postData) {
 
   if(request.query.type == 'description') {
@@ -174,9 +186,9 @@ function fb(request, response, postData) {
 
 function exhibition(request, response, postData) {
   if(request.query.latitude && request.query.longitude) {
-   // freebase.query_freebase([{'/location/latitude': {'latitude<': Number(request.query.latitude) + 1, 'latitude>': Number(request.query.latitude) - 1}, 'name': null, 'type': '/location'}], writeFreebase)
+    freebase.query_freebase([{'/location/latitude': {'latitude<': Number(request.query.latitude) + 1, 'latitude>': Number(request.query.latitude) - 1}, 'name': null, 'type': '/location'}], writeFreebase)
   }
-  var mSet = [];
+/*  var mSet = [];
 
   pg.connect(connString, function(err, client) {
     var query = client.query("SELECT name FROM museum WHERE latitude > $1 AND latitude < $2", [Number(request.query.latitude) - 1], [Number(request.query.latitude) + 1]);
@@ -184,7 +196,7 @@ function exhibition(request, response, postData) {
       console.log(row.name);
       mSet.push(row.name);
     });
-
+*/
     /*function(err, result) {
       console.log(Number(request.query.latitude - 1).toString());
       console.log((Number(request.query.latitude) + 1).toString());
@@ -197,8 +209,8 @@ function exhibition(request, response, postData) {
       }
       writeFreebase(mSet);
     });*/
-    writeFreebase(mSet);
-  });
+ //   writeFreebase(mSet);
+//  });
 
 
   function writeFreebase(sender) {
@@ -224,3 +236,4 @@ exports.db = db;
 exports.fb = fb;
 exports.exhibition = exhibition;
 exports.activities = activities;
+exports.artbyid = artbyid;
