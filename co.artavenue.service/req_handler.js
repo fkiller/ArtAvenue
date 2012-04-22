@@ -53,12 +53,14 @@ function fb(request, response, postData) {
 
   if(request.query.type == 'artist') {
     console.log("type was artist");
-    pullFreebase('', request.query.artist, '');
+    freebase.query_freebase([{'artist': request.query.artist, 'name': null, 'art_subject':null, 'art_form':null,'art_genre':null,'media':null, 'type': '/visual_art/artwork'}], writeFreebase)
+    //pullFreebase('', request.query.artist, '');
   }
 
   if(request.query.type == 'name') {
     console.log("type was name" + request.query.name);
-    pullFreebase(request.query.name, '', '');
+    //pullFreebase(request.query.name, '', '');
+    freebase.query_freebase([{'name': request.query.name, 'artist': null, 'art_subject':null,'art_genre':null, 'type': '/visual_art/artwork'}], writeFreebase)
   }
 
   function pullFreebase(name, artist, description) {
@@ -104,7 +106,8 @@ function fb(request, response, postData) {
         postChunk += chunk;
       });
       res.on('end', function(e) {
-        writeFreebase(postChunk, '');
+        writeFreebase(postChunk);
+        //writeFreebase(postChunk, '');
       });
     });
 
@@ -119,16 +122,17 @@ function fb(request, response, postData) {
 
   }
 
-  function writeFreebase(sender, type) {
+  function writeFreebase(sender) {
     response.writeHeader(200, {"Content-Type": "application/json"});
-    var jres = {
+    /*var jres = {
       description: sender
     }
     if(type != '') {
       response.write(JSON.stringify(jres));
     } else {
       response.write(sender);
-    }
+    }*/
+    response.write(JSON.stringify(sender));
     response.end();
   }
 
